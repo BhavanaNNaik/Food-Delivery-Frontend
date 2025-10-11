@@ -34,6 +34,7 @@ const Login = () => {
       placeholder="Email"
       onChange={(e) => setEmail(e.target.value)}
       required
+      autocomplete="off"
     />
     <input
       type="password"
@@ -41,6 +42,7 @@ const Login = () => {
       placeholder="Password"
       onChange={(e) => setPassword(e.target.value)}
       required
+      autocomplete="new-password"
     />
     <button type="submit">Login</button>
 
