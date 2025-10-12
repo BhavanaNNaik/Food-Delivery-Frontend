@@ -34,7 +34,7 @@
 .register-container button {
   width: 100%;
   padding: 12px;
-  background-color: #FF4C29;
+  background-color: #34495e;
   color: white;
   font-size: 16px;
   border: none;
@@ -44,7 +44,7 @@
 }
 
 .register-container button:hover {
-  background-color: #FF6B35;
+  background-color: #34495e;
 }
 
 .register-container p {

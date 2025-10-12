@@ -48,7 +48,7 @@
 .login-container button {
   width: 100%;
   padding: 12px;
-  background-color: #FF4C29;
+  background-color: #34495e;
   color: white;
   font-size: 16px;
   border: none;
@@ -58,7 +58,7 @@
 }
 
 .login-container button:hover {
-  background-color: #FF6B35;
+  background-color: #34495e;
 }
 
 .login-container input:focus {
@@ -67,7 +67,7 @@
 }
 
 .login-container .error-message {
-  color: #D32F2F;
+  color: #34495e;
   text-align: center;
   margin-bottom: 15px;
   font-weight: 500;

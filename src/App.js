@@ -1,5 +1,6 @@
 
 import './App.css';
+import Dashboard from './components/Dashboard';
 import Login from "./components/Login"
 import Register from "./components/Register";
 import Restaurant from './components/Restaurant';
@@ -11,7 +12,9 @@ function App() {
     <Routes>
       <Route path="/login" element={<Login/>}></Route>
       <Route path="/register" element={<Register/>}></Route>
+      <Route path="/dashboard" element={<Dashboard/>}></Route>
       <Route path="/restaurants" element={<Restaurant/>}></Route>
+
 
     </Routes>
    </Router>
