@@ -7,7 +7,7 @@ const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -45,6 +45,9 @@ const Restaurants = () => {
     navigate("/login");
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div className="restaurants-page">
       {/* Navbar */}
@@ -55,7 +58,6 @@ const Restaurants = () => {
         </button>
       </nav>
 
-      {/* Main content */}
       <div className="restaurants-container">
         <h2>{searchTerm ? `Search Results for "${searchTerm}"` : "Restaurants"}</h2>
         <div className="restaurant-list">
@@ -83,11 +85,18 @@ const Restaurants = () => {
                   <p>Rating: {r.rating || "N/A"} ⭐</p>
                   <p>ETA: {r.eta || "-"} mins</p>
                   <p>Address: {r.address || "N/A"}</p>
+                  <button
+                    className="view-menu-btn"
+                    onClick={() => navigate(`/menus/restaurant/${r.restaurantId}`)}
+                  >
+                    View Menu
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
+
         {restaurants.length === 0 && <p>No restaurants found.</p>}
       </div>
     </div>
