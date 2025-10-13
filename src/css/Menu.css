@@ -109,7 +109,7 @@
 /* Add to cart button */
 .add-cart-btn {
   padding: 8px 14px;
-  background-color: #ff6f00;
+  background-color: #34495e;
   color: #fff;
   font-weight: 500;
   border: none;
@@ -120,7 +120,7 @@
 }
 
 .add-cart-btn:hover {
-  background-color: #e65c00;
+  background-color: #34495e;
 }
 
 /* Responsive adjustments */
@@ -141,4 +141,120 @@
     text-align: center;
     margin-top: 10px;
   }
+}
+
+/* Navbar layout fix */
+.navbar-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #34495e;
+  color: white;
+  padding: 10px 20px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-menu {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Cart icon styling */
+.cart-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.cart-icon {
+  font-size: 1.4rem;
+  color: white;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #34495e;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+}
+
+/* Quantity box (unchanged look) */
+.quantity-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.quantity-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8f8f8;
+  border-radius: 6px;
+  padding: 4px 10px;
+}
+
+.quantity-box button {
+  background-color: #ff7043;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.quantity-box span {
+  font-weight: bold;
+}
+
+/* Add button remains same size */
+.add-cart-btn {
+  background-color: #ff7043;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.add-cart-btn:hover {
+  background-color: #ff8a65;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  background-color: #ff7043;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.qty-display {
+  font-weight: bold;
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
 }

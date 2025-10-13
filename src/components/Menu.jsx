@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../css/Menu.css";
+import {CartContext} from "../context/CartContext";
+import Navbar from "./Navbar";
 
 const Menu = () => {
   const { restaurantId } = useParams();
@@ -10,6 +12,9 @@ const Menu = () => {
   const [restaurantName, setRestaurantName] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+
+  const {addToCart, removeFromCart, getQuantity}=useContext(CartContext);
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -42,12 +47,7 @@ const Menu = () => {
   return (
     <div className="menu-page">
       {/* Navbar */}
-      <nav className="navbar-menu">
-        <div className="logo-menu">FoodieExpress</div>
-        <button className="logout-btn-menu" onClick={handleLogout}>
-          Logout
-        </button>
-      </nav>
+      <Navbar />
 
       {/* Page Title */}
       <h2>{restaurantName} - Menu</h2>
@@ -55,7 +55,9 @@ const Menu = () => {
       {/* Menu Items */}
       <div className="menu-list">
         {menu.length > 0 ? (
-          menu.map((item) => (
+          menu.map((item) => { 
+            const quantity=getQuantity(item.menuId);
+            return (
             <div key={item.menuId} className="menu-card">
               <img
                 src={
@@ -76,9 +78,35 @@ const Menu = () => {
                 <p>Price: ₹{item.price}</p>
                 <p>Rating: {item.rating || "-"} ⭐</p>
               </div>
-              <button className="add-cart-btn">Add to Cart</button>
-            </div>
-          ))
+
+
+              {quantity === 0 ? (
+                  <button
+                    className="add-cart-btn"
+                    onClick={() => addToCart(item)}
+                  >
+                    Add to Cart
+                  </button>
+                ) : (
+                  <div className="quantity-controls">
+                    <button
+                      className="qty-btn"
+                      onClick={() => removeFromCart(item)}
+                    >
+                      -
+                    </button>
+                    <span className="qty-display">{quantity}</span>
+                    <button
+                      className="qty-btn"
+                      onClick={() => addToCart(item)}
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })
         ) : (
           <p>No menu items available.</p>
         )}

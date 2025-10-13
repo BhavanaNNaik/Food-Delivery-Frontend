@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../css/Restaurant.css";
+import Navbar from "./Navbar";
 
 const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -50,13 +51,7 @@ const Restaurants = () => {
 
   return (
     <div className="restaurants-page">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">FoodieExpress</div>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-      </nav>
+     <Navbar />
 
       <div className="restaurants-container">
         <h2>{searchTerm ? `Search Results for "${searchTerm}"` : "Restaurants"}</h2>
