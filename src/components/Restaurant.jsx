@@ -1,26 +1,31 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../css/Restaurant.css";
 import Navbar from "./Navbar";
 
 const Restaurants = () => {
+  const navigate = useNavigate();
+
+  const initialPage = parseInt(new URLSearchParams(window.location.search).get("page")) || 0;
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  
-  const location = useLocation();
-  const navigate = useNavigate();
-  const queryParams = new URLSearchParams(location.search);
-  const searchTerm = queryParams.get("search") || "";
+  const [page, setPage] = useState(initialPage);
+  const [size] = useState(6); // Number of restaurants per page
+  const [totalPages, setTotalPages] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
+  // Fetch restaurants whenever page, size, or searchTerm changes
   useEffect(() => {
     const fetchRestaurants = async () => {
+      setLoading(true);
       try {
-        const res = await api.get("/restaurants");
-        let data = res.data;
+        const res = await api.get(`/restaurants?page=${page}&size=${size}&search=${encodeURIComponent(searchTerm)}`);
+        let data = res.data?.content || [];
+        setTotalPages(res.data?.totalPages || 0);
 
-        // Frontend filtering based on search term
+        // Frontend search filtering
         if (searchTerm) {
           const lowerSearch = searchTerm.toLowerCase();
           data = data.filter(
@@ -40,10 +45,12 @@ const Restaurants = () => {
     };
 
     fetchRestaurants();
-  }, [searchTerm]);
+  }, [page, searchTerm, size]);
 
-  const handleLogout = () => {
-    navigate("/login");
+  // Navigate to a new page and update URL
+  const navigateToPage = (newPage) => {
+    setPage(newPage);
+    navigate(`?page=${newPage}`, { replace: true });
   };
 
   if (loading) return <p>Loading...</p>;
@@ -51,10 +58,11 @@ const Restaurants = () => {
 
   return (
     <div className="restaurants-page">
-     <Navbar />
+      <Navbar />
 
       <div className="restaurants-container">
         <h2>{searchTerm ? `Search Results for "${searchTerm}"` : "Restaurants"}</h2>
+
         <div className="restaurant-list">
           {restaurants.map((r) => {
             const imageUrl =
@@ -70,8 +78,7 @@ const Restaurants = () => {
                   className="restaurant-image"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src =
-                      "http://localhost:8080/images/restaurants/default.png";
+                    e.target.src = "http://localhost:8080/images/restaurants/default.png";
                   }}
                 />
                 <div className="restaurant-info">
@@ -93,6 +100,24 @@ const Restaurants = () => {
         </div>
 
         {restaurants.length === 0 && <p>No restaurants found.</p>}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button onClick={() => navigateToPage(page - 1)} disabled={page === 0}>
+              Previous
+            </button>
+            <span>
+              Page {page + 1} of {totalPages}
+            </span>
+            <button
+              onClick={() => navigateToPage(page + 1)}
+              disabled={page === totalPages - 1}
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
