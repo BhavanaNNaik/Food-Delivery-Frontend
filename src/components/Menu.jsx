@@ -23,21 +23,17 @@ const Menu = () => {
 
   const { addToCart, removeFromCart, getQuantity } = useContext(CartContext);
 
-  // Fetch menu whenever restaurantId or page changes
   useEffect(() => {
     const fetchMenu = async () => {
       setLoading(true);
       try {
-        // Fetch paginated menu
         const res = await api.get(
           `/menus/restaurant/${restaurantId}?page=${page}&size=${size}`
         );
-
         const content = res.data?.content || [];
         setMenu(content);
         setTotalPages(res.data?.totalPages || 0);
 
-        // Fetch restaurant name
         const resRest = await api.get(`/restaurants/${restaurantId}`);
         setRestaurantName(resRest.data?.name || "");
 
@@ -52,14 +48,9 @@ const Menu = () => {
     fetchMenu();
   }, [restaurantId, page, size]);
 
-  // Update URL when page changes
   const navigateToPage = (newPage) => {
     setPage(newPage);
     navigate(`?page=${newPage}`, { replace: true });
-  };
-
-  const handleLogout = () => {
-    navigate("/login");
   };
 
   if (loading) return <p style={{ paddingTop: "80px" }}>Loading...</p>;
@@ -68,9 +59,7 @@ const Menu = () => {
   return (
     <div className="menu-page">
       <Navbar />
-
       <h2>{restaurantName} - Menu</h2>
-
       <div className="menu-list">
         {menu.length > 0 ? (
           menu.map((item) => {
@@ -88,7 +77,8 @@ const Menu = () => {
                   className="menu-image"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "http://localhost:8080/images/menu/default.png";
+                    e.target.src =
+                      "http://localhost:8080/images/menu/default.png";
                   }}
                 />
                 <div className="menu-info">
@@ -99,16 +89,37 @@ const Menu = () => {
                 </div>
 
                 {quantity === 0 ? (
-                  <button className="add-cart-btn" onClick={() => addToCart(item)}>
+                  <button
+                    className="add-cart-btn"
+                    onClick={() =>
+                      addToCart({
+                        ...item,
+                        restaurantId: restaurantId,
+                        restaurantName: restaurantName,
+                      })
+                    }
+                  >
                     Add to Cart
                   </button>
                 ) : (
                   <div className="quantity-controls">
-                    <button className="qty-btn" onClick={() => removeFromCart(item)}>
+                    <button
+                      className="qty-btn"
+                      onClick={() => removeFromCart(item)}
+                    >
                       -
                     </button>
                     <span className="qty-display">{quantity}</span>
-                    <button className="qty-btn" onClick={() => addToCart(item)}>
+                    <button
+                      className="qty-btn"
+                      onClick={() =>
+                        addToCart({
+                          ...item,
+                          restaurantId: restaurantId,
+                          restaurantName: restaurantName,
+                        })
+                      }
+                    >
                       +
                     </button>
                   </div>
@@ -121,7 +132,6 @@ const Menu = () => {
         )}
       </div>
 
-      {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="pagination">
           <button onClick={() => navigateToPage(page - 1)} disabled={page === 0}>

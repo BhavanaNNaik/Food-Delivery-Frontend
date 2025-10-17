@@ -34,7 +34,7 @@ const Login = () => {
       placeholder="Email"
       onChange={(e) => setEmail(e.target.value)}
       required
-      autocomplete="off"
+      autoComplete="off"
     />
     <input
       type="password"
@@ -42,14 +42,14 @@ const Login = () => {
       placeholder="Password"
       onChange={(e) => setPassword(e.target.value)}
       required
-      autocomplete="new-password"
+      autoComplete="new-password"
     />
     <button type="submit">Login</button>
 
     {error && <p className="error-message">{error}</p>}
 
     <p>
-      Don't have an account? <Link to="/register">Register here</Link>
+      Don't have an account? <Link to="/dashboard">Register here</Link>
     </p>
   </form>
 </div>

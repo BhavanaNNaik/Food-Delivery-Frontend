@@ -12,7 +12,6 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-
   const addToCart = (item) => {
     setCart((prev) => {
       const exists = prev.find((i) => i.menuId === item.menuId);
@@ -27,7 +26,6 @@ export const CartProvider = ({ children }) => {
       }
     });
   };
-
 
   const removeFromCart = (item) => {
     setCart((prev) =>
